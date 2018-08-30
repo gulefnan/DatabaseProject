@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "496773950426",
-    "firebase_url": "https://fir-database-f45c8.firebaseio.com",
-    "project_id": "fir-database-f45c8",
-    "storage_bucket": "fir-database-f45c8.appspot.com"
+    "project_number": "116835418053",
+    "firebase_url": "https://fir-databse-939e1.firebaseio.com",
+    "project_id": "fir-databse-939e1",
+    "storage_bucket": "fir-databse-939e1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:496773950426:android:430e6a46fce9b5e7",
+        "mobilesdk_app_id": "1:116835418053:android:430e6a46fce9b5e7",
         "android_client_info": {
           "package_name": "com.example.efnangul.firebasedatabase"
         }
       },
       "oauth_client": [
         {
-          "client_id": "496773950426-pq3ilbipt6h46ed6g1ba6qjlm9ff7dk5.apps.googleusercontent.com",
+          "client_id": "116835418053-lmpadrh3riqfoiqe7848bi6r551498eq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.efnangul.firebasedatabase",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "496773950426-1i74ess0c15ohkc3eg2eg0si3rv5ihnt.apps.googleusercontent.com",
+          "client_id": "116835418053-nj41n7oh7qe1hkvuh77n6g53hno2727f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBhR93hWb5l3bVkRlHct6zr3f5JnEK9dPw"
+          "current_key": "AIzaSyB9eyNiVpWH4pqEhmwOJDWeo4FYO-AzIOI"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "496773950426-1i74ess0c15ohkc3eg2eg0si3rv5ihnt.apps.googleusercontent.com",
+              "client_id": "116835418053-nj41n7oh7qe1hkvuh77n6g53hno2727f.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

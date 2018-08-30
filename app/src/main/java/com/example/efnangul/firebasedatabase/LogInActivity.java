@@ -17,6 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LogInActivity extends AppCompatActivity {
+    private static final String TAG = "LogInActivity";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -35,44 +36,42 @@ public class LogInActivity extends AppCompatActivity {
         et_LogInPassword = (EditText) findViewById(R.id.et_LogInPassword);
         text_toRegister = (TextView) findViewById(R.id.text_toRegister);
 
-
         Button btn_logIn = (Button) findViewById(R.id.btn_logIn);
+        Button btnNewUser = (Button) findViewById(R.id.btn_newUser);
+
         btn_logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentPersonProfile = new Intent(LogInActivity.this, PersonProfile.class);
-                startActivity(intentPersonProfile);
+                LogInEmail = et_LogInEmail.getText().toString();
+                LogInPassword = et_LogInPassword.getText().toString();
+
+                mAuth.signInWithEmailAndPassword(LogInEmail, LogInPassword)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                try {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "LogIn Succesfully", Toast.LENGTH_SHORT).show();
+                                    } else
+                                        Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Log.e(TAG, "You have an error!"); //Log.e error msg
+                                }
+                            }
+                        });
+//                Intent intentPersonProfile = new Intent(LogInActivity.this, PersonProfile.class);
+//                startActivity(intentPersonProfile);
             }
         });
-        Button btnNewUser = (Button) findViewById(R.id.btn_newUser);
+
         btnNewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i(TAG, "Go Add user page");
                 Intent intentNewUser = new Intent(LogInActivity.this, AddNewUserActivity.class);
                 startActivity(intentNewUser);
-
-                Log.e("Error", "you have an error!"); //Log.e error msg
             }
         });
-
-        LogInEmail = et_LogInEmail.getText().toString();
-        LogInPassword = et_LogInPassword.getText().toString();
-
-        mAuth.signInWithEmailAndPassword(LogInEmail, LogInPassword)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        try {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "LogIn Succesfully", Toast.LENGTH_SHORT).show();
-                            } else
-                                Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
-                        } catch (Exception e) {
-                            Log.e("Error", "you have an error!"); //Log.e error msg
-                        }
-                    }
-                });
-
     }
 }
 

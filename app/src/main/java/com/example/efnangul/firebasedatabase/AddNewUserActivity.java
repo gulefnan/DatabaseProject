@@ -16,7 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class AddNewUserActivity extends AppCompatActivity {
-
+    private final static String TAG = "AddNewUserActivity";
     String newUserEmail, newUserPassword;
     private FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -32,7 +32,6 @@ public class AddNewUserActivity extends AppCompatActivity {
         et_newUserEmail = (EditText) findViewById(R.id.et_newUserEmail);
         et_newUserPassword = (EditText) findViewById(R.id.et_newUserPassword);
 
-
         Button btn_createNewUser = (Button) findViewById(R.id.btn_createNewUser);
         btn_createNewUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,9 +39,6 @@ public class AddNewUserActivity extends AppCompatActivity {
                 newUserEmail = et_newUserEmail.getText().toString();
                 newUserPassword = et_newUserPassword.getText().toString();
 
-                Intent intentPersonProfile = new Intent(AddNewUserActivity.this, PersonProfile.class);
-                startActivity(intentPersonProfile);
-                Log.i("Warning", "error");
                 mAuth.createUserWithEmailAndPassword(newUserEmail, newUserPassword)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -50,19 +46,17 @@ public class AddNewUserActivity extends AppCompatActivity {
 
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
-                                    Log.e("error", "createUserWithEmail:success");
-
+                                    Log.i(TAG, "Task success");
+                                    Intent intentPersonProfile = new Intent(AddNewUserActivity.this, PersonProfile.class);
+                                    startActivity(intentPersonProfile);
                                 } else {
-                                    Log.i("Error", "You have an error");
-                                    Toast.makeText(getApplicationContext(), "New User Created", Toast.LENGTH_SHORT).show();
+                                    Log.e(TAG, "You have an error");
+                                    Toast.makeText(getApplicationContext(), "New User Created Error", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                         });
             }
-
-            ;
-
         });
     }
 }
