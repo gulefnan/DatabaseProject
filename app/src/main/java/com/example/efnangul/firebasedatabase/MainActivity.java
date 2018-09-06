@@ -2,21 +2,24 @@ package com.example.efnangul.firebasedatabase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.example.efnangul.firebasedatabase.R;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.TooManyListenersException;
 
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private FloatingActionButton mAddUserBtn;
 
     ArrayList<UserModel> myDataset = null;
 
@@ -31,8 +34,21 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MyRecyclerViewAdapter(getDataSet());
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(), new MyRecyclerViewAdapter.MyClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                //TODO: Get card view data
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
+
+        mAddUserBtn = (FloatingActionButton) findViewById(R.id.fab_add_user);
+        mAddUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Add user with admin
+            }
+        });
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
@@ -40,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<UserModel> getDataSet() {
         myDataset = new ArrayList<>();
+
+        //TODO: Get card views
 
         myDataset.add(new UserModel("ieg@gmail.com", "ieg", "ieg", 123, "home", 12, UserModel.Sex.MALE));
         myDataset.add(new UserModel("ieg@gmail.com", "ieg1", "ieg", 123, "home", 12, UserModel.Sex.MALE));

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private ArrayList<UserModel> mDataset;
     private static MyClickListener myClickListener;
 
-    public static class UserModelHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class UserModelHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tv_email;
         TextView tv_name;
         TextView tv_lastName;
@@ -41,12 +42,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
     }
 
-    public void setOnItemClickListener(MyClickListener myClickListener) {
-        this.myClickListener = myClickListener;
-    }
-
-    public MyRecyclerViewAdapter(ArrayList<UserModel> myDataset) {
+    public MyRecyclerViewAdapter(ArrayList<UserModel> myDataset, MyClickListener myClickListener) {
         mDataset = myDataset;
+        this.myClickListener = myClickListener;
     }
 
     @Override
