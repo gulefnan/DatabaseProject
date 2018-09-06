@@ -21,9 +21,6 @@
         <activity
             android:name="com.example.efnangul.firebasedatabase.LoginActivity"
             android:theme="@style/AppTheme.Dark" />
-        <activity
-            android:name="com.example.efnangul.firebasedatabase.SignupActivity"
-            android:theme="@style/AppTheme.Dark" />
     </application>
 
 </manifest>
