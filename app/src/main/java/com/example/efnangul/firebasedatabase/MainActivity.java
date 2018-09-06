@@ -3,22 +3,52 @@ package com.example.efnangul.firebasedatabase;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.efnangul.firebasedatabase.R;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    ArrayList<UserModel> myDataset = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_card_list);
+        mRecyclerView.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new MyRecyclerViewAdapter(getDataSet());
+        mRecyclerView.setAdapter(mAdapter);
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    private ArrayList<UserModel> getDataSet() {
+        myDataset = new ArrayList<>();
+
+        myDataset.add(new UserModel("ieg@gmail.com", "ieg", "ieg", 123, "home", 12, UserModel.Sex.MALE));
+        myDataset.add(new UserModel("ieg@gmail.com", "ieg1", "ieg", 123, "home", 12, UserModel.Sex.MALE));
+        myDataset.add(new UserModel("ieg@gmail.com", "ieg2", "ieg", 123, "home", 12, UserModel.Sex.MALE));
+        myDataset.add(new UserModel("ieg@gmail.com", "ieg3", "ieg", 123, "home", 12, UserModel.Sex.MALE));
+        myDataset.add(new UserModel("ieg@gmail.com", "ieg4", "ieg", 123, "home", 12, UserModel.Sex.MALE));
+        myDataset.add(new UserModel("ieg@gmail.com", "ieg5", "ieg", 123, "home", 12, UserModel.Sex.MALE));
+
+        return myDataset;
     }
 
     @Override
