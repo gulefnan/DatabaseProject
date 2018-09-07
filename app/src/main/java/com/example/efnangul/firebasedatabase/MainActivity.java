@@ -1,9 +1,11 @@
 package com.example.efnangul.firebasedatabase;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -63,18 +66,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO: Add user with admin
-                DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("Users");
-                dbRef.push().setValue(
-                        new UserModel(
-                                "ieg@gmail.com",
-                                "ieg",
-                                "ieg",
-                                123,
-                                "home",
-                                12,
-                                UserModel.Sex.MALE
-                        )
-                );
+                addUserDialog();
             }
         });
 
@@ -115,6 +107,55 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_LOGIN_MODE);
     }
 
+    private void addUserDialog() {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE: {
+                        //Yes button clicked
+                        EditText email = (EditText) ((AlertDialog) dialog).findViewById(R.id.uav_email);
+                        EditText name = (EditText) ((AlertDialog) dialog).findViewById(R.id.uav_name);
+                        EditText lastname = (EditText) ((AlertDialog) dialog).findViewById(R.id.uav_lastname);
+                        EditText salary = (EditText) ((AlertDialog) dialog).findViewById(R.id.uav_salary);
+                        EditText department = (EditText) ((AlertDialog) dialog).findViewById(R.id.uav_department);
+                        EditText age = (EditText) ((AlertDialog) dialog).findViewById(R.id.uav_age);
+                        EditText sex = (EditText) ((AlertDialog) dialog).findViewById(R.id.uav_sex);
+
+                        UserModel user = new UserModel();
+                        user.setEmail(email.getText().toString());
+                        user.setName(name.getText().toString());
+                        user.setLastName(lastname.getText().toString());
+                        user.setSalary(Integer.parseInt(salary.getText().toString()));
+                        user.setDepartment(department.getText().toString());
+                        user.setAge(Integer.parseInt(age.getText().toString()));
+                        user.setSex(sex.getText().toString().contains("female") ? UserModel.Sex.FEMALE : UserModel.Sex.MALE);
+
+                        addUserDB(user);
+
+                        break;
+                    }
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        dialog.dismiss();
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder
+                .setMessage("User Add")
+                .setView(R.layout.user_add_view)
+                .setPositiveButton("Add", dialogClickListener)
+                .setNegativeButton("Cancel", dialogClickListener)
+                .show();
+    }
+
+    private void addUserDB(UserModel user) {
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        dbRef.push().setValue(user);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_LOGIN_MODE)
@@ -124,10 +165,12 @@ public class MainActivity extends AppCompatActivity {
                     String email = data.getStringExtra(EXTRA_LOGIN_EMAIL);
                     switch (mode) {
                         case admin: {
+                            mAddUserBtn.setVisibility(View.VISIBLE);
                             setAllUsers();
                             break;
                         }
                         case other: {
+                            mAddUserBtn.setVisibility(View.GONE);
                             setOneUser(email);
                             break;
                         }
