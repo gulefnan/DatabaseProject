@@ -197,7 +197,9 @@ public class MainActivity extends AppCompatActivity {
             return;
 
         myAdapterDataset.clear();
-        myAdapterDataset = myDataset;
+        for (int i = 0; i < myDataset.size(); i++)
+            myAdapterDataset.add(myDataset.get(i));
+
         mAdapter.notifyDataSetChanged();
     }
 }
