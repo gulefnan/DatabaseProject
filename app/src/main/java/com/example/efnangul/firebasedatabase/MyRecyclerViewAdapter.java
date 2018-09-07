@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -14,15 +13,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private static String LOG_TAG = "MyRecyclerViewAdapter";
 
     private ArrayList<UserModel> mDataset;
-    private static MyClickListener myClickListener;
+    private final myItemClickListener ıtemClickListener;
 
-    public class UserModelHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class UserModelHolder extends RecyclerView.ViewHolder {
         TextView tv_email;
         TextView tv_name;
         TextView tv_lastName;
         TextView tv_salary;
         TextView tv_department;
         TextView tv_age;
+        myItemClickListener listener;
+        int position = -1;
 
         public UserModelHolder(View itemView) {
             super(itemView);
@@ -33,18 +34,23 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             tv_department = (TextView) itemView.findViewById(R.id.tv_department);
             tv_age = (TextView) itemView.findViewById(R.id.tv_age);
             Log.i(LOG_TAG, "Adding Listener");
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null)
+                        listener.onItemClick(position);
+                }
+            });
         }
 
-        @Override
-        public void onClick(View v) {
-            myClickListener.onItemClick(getAdapterPosition(), v);
+        public void setListener(myItemClickListener listener) {
+            this.listener = listener;
         }
     }
 
-    public MyRecyclerViewAdapter(ArrayList<UserModel> myDataset, MyClickListener myClickListener) {
+    public MyRecyclerViewAdapter(ArrayList<UserModel> myDataset, myItemClickListener ıtemClickListener) {
         mDataset = myDataset;
-        this.myClickListener = myClickListener;
+        this.ıtemClickListener = ıtemClickListener;
     }
 
     @Override
@@ -64,6 +70,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.tv_salary.setText(String.valueOf(mDataset.get(position).getSalary()));
         holder.tv_department.setText(mDataset.get(position).getDepartment());
         holder.tv_age.setText(String.valueOf(mDataset.get(position).getAge()));
+        holder.setListener(ıtemClickListener);
+        holder.position = position;
     }
 
     public void addItem(UserModel dataObj, int index) {
@@ -81,7 +89,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return mDataset.size();
     }
 
-    public interface MyClickListener {
-        public void onItemClick(int position, View v);
+    public interface myItemClickListener {
+        public void onItemClick(int position);
     }
 }

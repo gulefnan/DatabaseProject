@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,10 +54,12 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MyRecyclerViewAdapter(myAdapterDataset, new MyRecyclerViewAdapter.MyClickListener() {
+        mAdapter = new MyRecyclerViewAdapter(myAdapterDataset, new MyRecyclerViewAdapter.myItemClickListener() {
             @Override
-            public void onItemClick(int position, View v) {
+            public void onItemClick(int position) {
                 //TODO: Get card view data
+                if (position >= 0 && position < myAdapterDataset.size())
+                    showUser(myAdapterDataset.get(position));
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -148,6 +151,49 @@ public class MainActivity extends AppCompatActivity {
                 .setView(R.layout.user_add_view)
                 .setPositiveButton("Add", dialogClickListener)
                 .setNegativeButton("Cancel", dialogClickListener)
+                .show();
+    }
+
+    private void showUser(UserModel user) {
+
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.user_add_view, null);
+
+        EditText email = (EditText) view.findViewById(R.id.uav_email);
+        EditText name = (EditText) view.findViewById(R.id.uav_name);
+        EditText lastname = (EditText) view.findViewById(R.id.uav_lastname);
+        EditText salary = (EditText) view.findViewById(R.id.uav_salary);
+        EditText department = (EditText) view.findViewById(R.id.uav_department);
+        EditText age = (EditText) view.findViewById(R.id.uav_age);
+        EditText sex = (EditText) view.findViewById(R.id.uav_sex);
+
+        email.setEnabled(false);
+        name.setEnabled(false);
+        lastname.setEnabled(false);
+        salary.setEnabled(false);
+        department.setEnabled(false);
+        age.setEnabled(false);
+        sex.setEnabled(false);
+
+        email.setText(user.getEmail());
+        name.setText(user.getName());
+        lastname.setText(user.getLastName());
+        salary.setText(String.valueOf(user.getSalary()));
+        department.setText(user.getDepartment());
+        age.setText(String.valueOf(user.getAge()));
+        sex.setText(user.getSex() == UserModel.Sex.MALE ? "male" : "female");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder
+                .setMessage("User Add")
+                .setView(view)
+                .setCancelable(true)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
                 .show();
     }
 
