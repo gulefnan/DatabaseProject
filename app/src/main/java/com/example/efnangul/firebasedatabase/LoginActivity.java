@@ -1,5 +1,6 @@
 package com.example.efnangul.firebasedatabase;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
-        }
+    }
 
     public void login() {
         Log.d(TAG, "Login");
@@ -94,10 +95,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-
                 // TODO: Implement successful signup logic here
                 // By default we just finish the Activity and log them in automatically
-                this.finish();
+                //this.finish();
             }
         }
     }
@@ -110,6 +110,18 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
+
+        Intent returnIntent = new Intent();
+        String returnEmail = _emailText.getText().toString();
+
+        if (returnEmail.contains("admin"))
+            returnIntent.putExtra("LOGIN_MODE", MainActivity.LOGIN_MODE.admin);
+        else
+            returnIntent.putExtra("LOGIN_MODE", MainActivity.LOGIN_MODE.other);
+
+        returnIntent.putExtra(MainActivity.EXTRA_LOGIN_EMAIL, returnEmail);
+        setResult(Activity.RESULT_OK, returnIntent);
+
         finish();
     }
 

@@ -11,6 +11,9 @@ public class UserModel {
     private int age;
     private Sex sex;
 
+    public UserModel() {
+    }
+
     public UserModel(String email, String name, String lastName, int salary, String department, int age, Sex sex) {
         this.email = email;
         this.name = name;
